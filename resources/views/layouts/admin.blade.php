@@ -41,8 +41,8 @@
 								alt="User Image">
 						</div>
 						<div class="pull-left info">
-							<p>Alexander Pierce</p>
-							<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+							<p><?php echo auth()->user()->name?></p>
+							<a href="#"><i class="fa fa-circle text-success"></i> <?php echo auth()->user()->getRole(auth()->user()->role_id)?></a>
 						</div>
 					</div>
 					<!-- search form -->
@@ -60,7 +60,7 @@
 					<!-- /.search form -->
 					<!-- sidebar menu: : style can be found in sidebar.less -->
 					{!! $sideMenuBar->asUl(['class' => 'sidebar-menu tree', 'data-widget' => 'tree'] ) !!}
-					<!-- <ul class="sidebar-menu" data-widget="tree">
+					<ul class="sidebar-menu" data-widget="tree">
 						<li class="header">MAIN NAVIGATION</li>
 						<li class="active treeview"><a href="#"> <i
 								class="fa fa-dashboard"></i> <span>Dashboard</span> <span
@@ -221,7 +221,7 @@
 						<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
 						<li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
 						<li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
-					</ul> -->
+					</ul>
 				</section>
 				<!-- /.sidebar -->
 			</aside>
