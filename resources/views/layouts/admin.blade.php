@@ -59,7 +59,7 @@
 					</form>
 					<!-- /.search form -->
 					<!-- sidebar menu: : style can be found in sidebar.less -->
-					{!! $MyNavBar->asUl(['class' => 'sidebar-menu tree', 'data-widget' => 'tree'] ) !!}
+					{!! $sideMenuBar->asUl(['class' => 'sidebar-menu tree', 'data-widget' => 'tree'] ) !!}
 					<!-- <ul class="sidebar-menu" data-widget="tree">
 						<li class="header">MAIN NAVIGATION</li>
 						<li class="active treeview"><a href="#"> <i

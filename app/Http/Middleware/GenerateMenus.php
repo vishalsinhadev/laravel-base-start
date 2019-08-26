@@ -1,6 +1,10 @@
-<?php
+<?php 
+/** 
+ * @author	 : Vishal Kumar Sinha <vishalsinhadev@gmail.com> 
+ */
 namespace App\Http\Middleware;
 
+use Lavary\Menu\Menu;
 use Closure;
 
 class GenerateMenus
@@ -15,12 +19,99 @@ class GenerateMenus
      */
     public function handle($request, Closure $next)
     {
-        \Menu::make('MyNavBar', function ($menu) {
-            $menu->add('<i class="fa fa-dashboard"></i>Home');
-            $menu->add('About', 'about');
-            $menu->add('Services', 'services');
-            $menu->add('Contact', 'contact');
+        (new Menu())->make('sideMenuBar', function ($menu) {
+            $items = self::getMenu();
+            foreach ($items as $key => $item) {
+                if (! isset($item['visible']) || $item['visible']) {
+                    $menu->add($item['text'], [
+                        'title' => $item['title']
+                    ])
+                        ->append('</span>')
+                        ->prepend('<i class="fa ' . $item['icon'] . '"></i> <span>')->link->attr($item['link_attribute']);
+                    if (isset($item['submenu'])) {
+                        foreach ($item['submenu'] as $submenu) {
+                            if (isset($submenu['visible']) && $submenu['visible'] == false) {
+                                continue;
+                            }
+                            $item['text'] = strtolower($item['text']);
+                            $menu->{$item['text']}->add($submenu['text'], [
+                                'title' => $item['title']
+                            ])
+                                ->append('</span>')
+                                ->prepend('<i class="fa ' . $submenu['icon'] . '"></i> <span>')->link->attr($submenu['link_attribute']);
+                        }
+                    }
+                }
+            }
         });
         return $next($request);
+    }
+
+    static function menu($text, $url, $icon, $visible = true, $submenu = [], $title = null)
+    {
+        if ($title === null) {
+            $title = $text;
+        }
+        $parent = [
+            'icon' => $icon,
+            'title' => $title,
+            'text' => $text,
+            'visible' => $visible,
+            'link_attribute' => [
+                'href' => $url
+            ]
+        ];
+
+        if (! empty($submenu)) {
+            $child = [];
+            foreach ($submenu as $key => $m) {
+                if (! isset($m['title'])) {
+                    $m['title'] = $m['text'];
+                }
+                $child[$key] = [
+                    'icon' => $m['icon'],
+                    'title' => $m['title'],
+                    'text' => $m['text'],
+                    'link_attribute' => [
+                        'href' => $m['link_attribute']['href']
+                    ],
+                    'visible' => isset($m['visible']) ? $m['visible'] : true
+                ];
+            }
+            $final = [];
+            $final['submenu'] = $child;
+            $parent = array_merge($parent, $final);
+        }
+        return $parent;
+    }
+
+    static function getMenu()
+    {
+//         if (auth()->user() == null) {
+//             return [];
+//         }
+        return [
+            self::menu('Dashboard', '#', 'fa-dashboard', true, [
+                [
+                    'text' => 'My Dashboard',
+                    'icon' => 'fa-dashboard',
+                    'link_attribute' => [
+                        'href' => route('dashboard.index')
+                    ],
+                    'visible' => true
+                ]
+            ]),
+            self::menu('User', '#', 'fa-user', true, [
+                [
+                    'text' => 'Admin',
+                    'icon' => 'fa-user',
+                    'link_attribute' => [
+                        'href' => route('user.admin')
+                    ],
+                    'visible' => true
+                ]
+            ]),
+            self::menu('User', route('user.index'), 'fa-book', true)
+        ];
     }
 }

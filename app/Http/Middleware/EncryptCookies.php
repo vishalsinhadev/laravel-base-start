@@ -1,4 +1,7 @@
-<?php
+<?php 
+/** 
+ * @author	 : Vishal Kumar Sinha <vishalsinhadev@gmail.com> 
+ */
 
 namespace App\Http\Middleware;
 
