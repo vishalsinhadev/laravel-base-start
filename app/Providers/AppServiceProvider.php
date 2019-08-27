@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Grids\UsersGrid;
+use App\Grids\UsersGridInterface;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(UsersGridInterface::class, UsersGrid::class);
         //
     }
 

@@ -23,21 +23,28 @@ class GenerateMenus
             $items = self::getMenu();
             foreach ($items as $key => $item) {
                 if (! isset($item['visible']) || $item['visible']) {
-                    $menu->add($item['text'], [
+                    $subClass = [];
+                    if (isset($item['submenu'])) {
+                        $subClass = ['class' => 'treeview'];
+                    }
+                    $result = array_merge([
                         'title' => $item['title']
-                    ])
+                    ], $subClass);
+                    $menu->add($item['text'], $result)
                         ->append('</span>')
                         ->prepend('<i class="fa ' . $item['icon'] . '"></i> <span>')->link->attr($item['link_attribute']);
                     if (isset($item['submenu'])) {
+                        //($menu->{$item['text']} != null) ? $menu->add($item['text'],['class' => 'treeview']) : '';
                         foreach ($item['submenu'] as $submenu) {
                             if (isset($submenu['visible']) && $submenu['visible'] == false) {
                                 continue;
                             }
                             $item['text'] = strtolower($item['text']);
+                            
+                            
                             $menu->{$item['text']}->add($submenu['text'], [
                                 'title' => $item['title']
-                            ])
-                                ->append('</span>')
+                            ])->append('</span>')
                                 ->prepend('<i class="fa ' . $submenu['icon'] . '"></i> <span>')->link->attr($submenu['link_attribute']);
                         }
                     }
@@ -101,7 +108,7 @@ class GenerateMenus
                     'visible' => true
                 ]
             ]),
-            self::menu('User', '#', 'fa-user', true, [
+            /* self::menu('User', '#', 'fa-user', true, [
                 [
                     'text' => 'Admin',
                     'icon' => 'fa-user',
@@ -110,7 +117,7 @@ class GenerateMenus
                     ],
                     'visible' => true
                 ]
-            ]),
+            ]), */
             self::menu('User', route('user.index'), 'fa-book', true)
         ];
     }

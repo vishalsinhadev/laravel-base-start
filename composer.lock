@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56edaa97389246ca2505a52292ecb74b",
+    "content-hash": "7fb65572078ad7cf02156182a4c98842",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -813,6 +813,85 @@
                 "storage"
             ],
             "time": "2019-08-24T11:17:19+00:00"
+        },
+        {
+            "name": "leantony/laravel-grid",
+            "version": "2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leantony/laravel-grid.git",
+                "reference": "a5cecf45e5f9e85aa7384436d4270aa36e75fa58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leantony/laravel-grid/zipball/a5cecf45e5f9e85aa7384436d4270aa36e75fa58",
+                "reference": "a5cecf45e5f9e85aa7384436d4270aa36e75fa58",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.5",
+                "illuminate/contracts": "~5.5",
+                "illuminate/database": "~5.5",
+                "illuminate/http": "~5.5",
+                "illuminate/pagination": "~5.5",
+                "illuminate/support": "~5.5",
+                "illuminate/view": "~5.5"
+            },
+            "require-dev": {
+                "barryvdh/laravel-dompdf": "^0.8.2",
+                "maatwebsite/excel": "^3.0",
+                "orchestra/testbench": "~3.0",
+                "orchestra/testbench-dusk": "^3.5",
+                "phpunit/php-code-coverage": "^6.0",
+                "phpunit/phpunit": "~7.0"
+            },
+            "suggest": {
+                "barryvdh/laravel-dompdf": "For exporting grid data as PDF (^0.8.2)",
+                "maatwebsite/excel": "For exporting grid data as excel (~3.0)"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Leantony\\Grid\\Providers\\GridServiceProvider"
+                    ],
+                    "aliases": {
+                        "Modal": "Leantony\\Grid\\Facades\\Modal"
+                    }
+                },
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Leantony\\Grid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antony [leantony] Chacha",
+                    "role": "Developer",
+                    "email": "chachaantony@gmail.com"
+                }
+            ],
+            "description": "A grid view for laravel, inspired by the yii2 grid widget",
+            "homepage": "https://github.com/leantony/laravel-grid",
+            "keywords": [
+                "bootstrap",
+                "grid",
+                "laravel",
+                "laravel-5",
+                "laravel-grid",
+                "laravel5",
+                "leantony",
+                "pjax"
+            ],
+            "time": "2018-06-23T09:03:34+00:00"
         },
         {
             "name": "monolog/monolog",

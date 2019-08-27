@@ -25,4 +25,9 @@ Route::group([
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
     Route::get('/user/admin', 'UserController@admin')->name('user.admin');
     Route::get('/user/index', 'UserController@index')->name('user.index');
+    Route::get('/user/create', 'UserController@create')->name('user.create');
+    Route::post('/user/create', 'UserController@create')->name('user.create');
+    Route::get('/user/show/{id}', 'UserController@show')->name('user.show');
+    Route::get('/user/destroy/{id}', 'UserController@destroy')->name('user.destroy');
+    
 });
