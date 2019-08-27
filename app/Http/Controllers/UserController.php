@@ -30,6 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        return view('user.add');
         //
     }
 
@@ -75,6 +76,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        return view('user.update');
         //
     }
 
