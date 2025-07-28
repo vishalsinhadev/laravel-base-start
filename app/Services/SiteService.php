@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactMail;
 use App\Helper\FileHelper;
+use App\Models\Post\Post;
 
 class SiteService
 {
