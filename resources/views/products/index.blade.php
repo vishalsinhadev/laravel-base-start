@@ -1,92 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data Products - SantriKoding.com</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body style="background: lightgray">
+<x-app-layout>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="w-full py-6">
+            <div class="bg-white shadow rounded-lg p-6">
+                <a href="{{ route('products.create') }}" class="inline-block mb-4 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700 transition">
+                    ADD PRODUCT
+                </a>
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <h3 class="text-center my-4">Tutorial Laravel 12 untuk Pemula</h3>
-                    <h5 class="text-center"><a href="https://santrikoding.com">www.santrikoding.com</a></h5>
-                    <hr>
+                @if ($products->isEmpty())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    Data Products belum ada.
                 </div>
-                <div class="card border-0 shadow-sm rounded">
-                    <div class="card-body">
-                        <a href="{{ route('products.create') }}" class="btn btn-md btn-success mb-3">ADD PRODUCT</a>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">IMAGE</th>
-                                    <th scope="col">TITLE</th>
-                                    <th scope="col">PRICE</th>
-                                    <th scope="col">STOCK</th>
-                                    <th scope="col" style="width: 20%">ACTIONS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($products as $product)
-                                    <tr>
-                                        <td class="text-center">
-                                            <img src="{{ asset('/storage/products/'.$product->image) }}" class="rounded" style="width: 150px">
-                                        </td>
-                                        <td>{{ $product->title }}</td>
-                                        <td>{{ "Rp " . number_format($product->price,2,',','.') }}</td>
-                                        <td>{{ $product->stock }}</td>
-                                        <td class="text-center">
-                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('products.destroy', $product->id) }}" method="POST">
-                                                <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">EDIT</a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <div class="alert alert-danger">
-                                        Data Products belum ada.
-                                    </div>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        {{ $products->links() }}
-                    </div>
+                @else
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+                        <thead class="bg-gray-100 text-gray-700 text-left text-sm uppercase font-semibold">
+                            <tr>
+                                <th class="p-3">IMAGE</th>
+                                <th class="p-3">TITLE</th>
+                                <th class="p-3">PRICE</th>
+                                <th class="p-3">STOCK</th>
+                                <th class="p-3 w-1/5">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-200">
+                            @foreach ($products as $product)
+                            <tr>
+                                <td class="p-3 text-center">
+                                    <img src="{{ asset('/storage/products/'.$product->image) }}" class="rounded w-[150px] mx-auto">
+                                </td>
+                                <td class="p-3">{{ $product->title }}</td>
+                                <td class="p-3">{{ "Rp " . number_format($product->price,2,',','.') }}</td>
+                                <td class="p-3">{{ $product->stock }}</td>
+                                <td class="p-3 text-center space-x-2">
+                                    <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline-flex space-x-1">
+                                        <a href="{{ route('products.show', $product->id) }}" class="px-2 py-1 bg-gray-800 text-white text-xs rounded hover:bg-gray-900">SHOW</a>
+                                        <a href="{{ route('products.edit', $product->id) }}" class="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">EDIT</a>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700">HAPUS</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+
+                <div class="mt-4">
+                    {{ $products->links() }}
+                </div>
+                @endif
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        //message with sweetalert
-        @if(session('success'))
-            Swal.fire({
-                icon: "success",
-                title: "BERHASIL",
-                text: "{{ session('success') }}",
-                showConfirmButton: false,
-                timer: 2000
-            });
-        @elseif(session('error'))
-            Swal.fire({
-                icon: "error",
-                title: "GAGAL!",
-                text: "{{ session('error') }}",
-                showConfirmButton: false,
-                timer: 2000
-            });
-        @endif
-
-    </script>
-
-</body>
-</html>
+</x-app-layout>

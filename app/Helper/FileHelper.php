@@ -4,6 +4,7 @@ namespace App\Helper;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class FileHelper
 {
@@ -74,5 +75,31 @@ class FileHelper
         $path = public_path(self::UPLOAD_DIR . $fileName);
 
         return File::exists($path) ? File::delete($path) : false;
+    }
+
+    static public function uploadFileToS3($fileName, $file)
+    {
+        if (! self::hasFileInS3($fileName)) {
+            return Storage::disk('s3')->put("$fileName", file_get_contents($file));
+        }
+    }
+
+    static public function removeFileInS3($fileName)
+    {
+        if (self::hasFileInS3($fileName)) {
+            return Storage::disk('s3')->delete("$fileName");
+        }
+        return false;
+    }
+
+    static public function hasFileInS3($fileName)
+    {
+        return Storage::disk('s3')->exists("$fileName");
+    }
+
+    static public function normalizeFileName($fileName)
+    {
+        $result = preg_replace('/^Product\/|Venue\/|Category\//', '', $fileName);
+        return is_array($result) ? $fileName : $result;
     }
 }

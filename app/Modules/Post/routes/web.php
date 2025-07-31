@@ -3,4 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Modules\Post\Controllers\PostController;
 
-Route::resource('posts', PostController::class);
+Route::middleware('auth')->group(function () {
+    Route::resource('posts', PostController::class);
+});
